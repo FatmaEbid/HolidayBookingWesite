@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="Utilities.ExtentReports"/>
+        <listener class-name="Utilities.RetryAnalyzer.Transormer"/>
+    </listeners>
+    <test
+          name="HolidayWebsiteIDA">
+        <classes>
+            <class name="TestCases.PageOneTestCases">
+                <methods>
+                    <include name="verifyUserDetailsIsCompleted"/>
+<!--                    <include name="verifyErrorMessages"/>-->
+                    <include name="verifyLoginWithDataProvider"/>
+                </methods>
+            </class>
+<!--            <class name="TestCases.PageTwoTestCases">-->
+<!--                <methods>-->
+<!--                    <include name="setFirstPageAndMoveToNextPage"/>-->
+<!--                    <include name="setHolidaySectionAndMoveToThirdPage"/>-->
+<!--                    <include name="setHolidaySectionAndMoveToFirstPage"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+        </classes>
+    </test>
+</suite>
