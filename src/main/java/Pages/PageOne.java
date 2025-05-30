@@ -64,6 +64,14 @@ public boolean isErrorMessageDisplayed() {
 	public void setFullName(String fullName) {
 		driver.findElement(enterFullName).sendKeys(fullName);
 	}
+	public boolean isNameContainsAlpha() {
+		String name= driver.findElement(enterFullName).getAttribute("value");
+		if(name != null && name.matches("^[a-zA-Z\\s-]+$")){ // Allow alphabetic characters, spaces, and hyphens
+			return true;
+		}else {
+			throw new IllegalArgumentException("Input must contain only alphabetic characters" + name);
+		}
+	}
 	public void setDateOfBirth(int day, int month, int year) {
 		driver.findElement(enterDay).sendKeys(String.valueOf(day));
 		driver.findElement(enterMonth).sendKeys(String.valueOf(month));

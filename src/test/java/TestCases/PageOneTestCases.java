@@ -7,6 +7,13 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertTrue;
 
 public class PageOneTestCases extends BaseTest{
+
+	/** Test Cases
+	 *  first name can only enter alpha characters limited to 30 characters
+	 *  Verifying  customer over 18 to fill out customer details form and accept only numbers
+	 *
+	 *
+	 * */
 	@Test
 	public void verifyUserDetailsIsCompleted() throws InterruptedException {
 		pageOne.selectTitle("Mr.");
@@ -19,6 +26,35 @@ public class PageOneTestCases extends BaseTest{
 		pageOne.setContinueButton();
 		Thread.sleep(1000);
 		assertTrue(driver.getCurrentUrl().contains("Page2"));
+	}
+	@DataProvider
+	public Object[][] userData() {
+		return new Object[][]{
+				{"John Doe", "passed"},
+				{"John_Doe", "failed"},
+				{"2Janes345", "failed"},
+				{"smi%^th", "failed"},
+				{"A very long user name should not exceeds thirty characters", "passed"},
+				{"1234567890123456789012345678901", "failed"},
+				{"", "failed"}
+		};
+	}
+	@Test(dataProvider = "userData")
+	public void verifyUserNameIsAlphaOnly(String fullName, String assertionFlag) {
+		pageOne.selectTitle("Mr.");
+		pageOne.setFullName(fullName);
+		assertTrue(pageOne.isNameContainsAlpha());
+		pageOne.setDateOfBirth(01,11,1990);
+		pageOne.setPhoneNum("6754389654");
+		pageOne.setEmailAddress("gimme@gmail.co.uk");
+		pageOne.setEmailConfirm("gimme@gmail.co.uk");
+		pageOne.setCustomerDetails("12 Main street", "Apt 4B", "New York", "NE 12LM");
+		pageOne.setContinueButton();
+		switch (assertionFlag){
+			case "passed" -> assertTrue(driver.getCurrentUrl().contains("Page2"));
+			case "failed" -> assertTrue(driver.getCurrentUrl().contains("Page1"));
+			default -> Assert.fail("Invalid assertion flag: " + assertionFlag);
+		}
 	}
 	@Test
 	public void verifyErrorMessages(){
