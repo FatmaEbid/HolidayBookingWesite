@@ -1,0 +1,63 @@
+
+[
+    {
+        "title": "Mr.",
+        "fullName": "John Doe",
+        "day": 15,
+        "month": 6,
+        "year": 1990,
+        "phoneNum": "1234567890",
+        "email1": "johndoe@example.com",
+        "email2": "johndoe@example.com",
+        "addressLine1": "123 Main St",
+        "addressLine2": "Apt 4B",
+        "addressLine3": "Springfield",
+        "postCode": "12345",
+        "assertionFlag": "passed"
+    },
+    {
+        "title": "",
+        "fullName": "Jane Smith",
+        "day": 22,
+        "month": 11,
+        "year": 1985,
+        "phoneNum": "0987654321",
+        "email1": "jane.smith@example.com",
+        "email2": "janesmith@yahoo.com",
+        "addressLine1": "456 Elm St",
+        "addressLine2": "Suite 101",
+        "addressLine3": "Shelbyville",
+        "postCode": "67890",
+        "assertionFlag": "failed"
+    },
+{
+        "title": "Miss.",
+        "fullName": "Fin Doe",
+        "day": 2,
+        "month": 11,
+        "year": 120,  "_comment": "Year 120 is likely a typo or test case for an invalid year",
+        "phoneNum": "1234567890",
+        "email1": "john.doe@gmail.com",
+        "email2": "john.doe@example.com",
+        "addressLine1": "123 Main St",
+        "addressLine2": "Apt 4B",
+        "addressLine3": "Springfield",
+        "postCode": "12345",
+        "assertionFlag": "failed"
+    },
+  {
+    "title": "Miss.",
+    "fullName": "Fin Doe",
+    "day": 15,
+    "month": 6,
+    "year": 1920,
+    "phoneNum": "1234567890",
+    "email1": "john.doe@gmail.com",
+    "email2": "john.doe@example.com",
+    "addressLine1": "123 Main St",
+    "addressLine2": "Apt 4B",
+    "addressLine3": "Springfield",
+    "postCode": "12345",
+    "assertionFlag": "failed"
+  }
+]

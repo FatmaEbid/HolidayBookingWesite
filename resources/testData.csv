@@ -1,0 +1,4 @@
+title,fullName,day,month,year,phoneNum,email1,email2,addressLine1,addressLine2,addressLine3,postCode,assertionFlag
+Mr.,John Doe,15,6,1990,1234567890,johndoe@example.com,johndoe@example.com,123 Main St,Apt 4B,Springfield,12345,passed
+Mr., smith, 20, 7, 1905, 0987654321,smith@gmail.co.uk,, 23 broadway, , , 54321, failed
+Miss.,Jane Smith,22,11,1985,0987654321,jane.smith@example.com,janesmith@yahoo.com,456 Elm St,Suite 101,Shelbyville,67890,failed
