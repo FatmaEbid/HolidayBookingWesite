@@ -69,7 +69,22 @@
             <version>1.10.0</version>
             <scope>test</scope>
         </dependency>
-
+        <!--accessibility - https://mvnrepository.com/artifact/com.deque.html.axe-core/selenium -->
+        <dependency>
+            <groupId>com.deque.html.axe-core</groupId>
+            <artifactId>selenium</artifactId>
+            <version>4.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.yandex.qatools.ashot</groupId>
+            <artifactId>ashot</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
     </dependencies>
 
 </project>

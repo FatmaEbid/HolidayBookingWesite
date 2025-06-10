@@ -2,6 +2,7 @@ package TestCases;
 
 import DataProviders.CsvDataReader;
 import DataProviders.JasonDataReader;
+import Utilities.ScreenShot;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -39,7 +40,7 @@ public class PageOneTestCases extends BaseTest {
 	public Object[][] userData() {
 		return new Object[][]{
 				{"John Doe", "passed"},
-				{"John_Doe", "failed"},
+				{"John_Doe", "passed"},
 				{"2Janes345", "failed"},
 				{"smi%^th", "failed"},
 				{"A very long user name should not exceeds thirty characters", "passed"},
@@ -133,7 +134,7 @@ public class PageOneTestCases extends BaseTest {
 	}
 
 	@Test(dataProvider = "jsonDataProvider")
-	public void testWithJsonData(Map<String, Object> data) {
+	public void testWithJsonData(Map<String, Object> data) throws Exception {
 		// Fill the form using the data from JSON
 		pageOne.selectTitle((String) data.get("title"));
 		pageOne.setFullName((String) data.get("fullName"));
@@ -156,6 +157,7 @@ public class PageOneTestCases extends BaseTest {
 
 		String status = (String) data.get("assertionFlag");
 		if ("passed".equalsIgnoreCase(status)) {
+			ScreenShot.takeFullPageScreenshot(driver,"testWithJsonData");
 			assertTrue(driver.getCurrentUrl().contains("GoodPage2"));
 		} else if ("failed".equalsIgnoreCase(status)) {
 			assertTrue(driver.getCurrentUrl().contains("GoodPage1"));

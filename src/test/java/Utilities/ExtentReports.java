@@ -9,12 +9,18 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
+import java.util.Properties;
 
 
 public class ExtentReports implements ITestListener {
@@ -79,9 +85,53 @@ public class ExtentReports implements ITestListener {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-
+// Send the report via email
+		sendEmailWithReport(file);
 	}
 
+	private void sendEmailWithReport(File reportFile) {
+		// Email configuration
+		String host = "smtp.example.com"; // Replace with your SMTP server
+		String from = "fatma.ebid@nationaltrust.org.uk"; // Replace with your email
+		String password = "your-email-password"; // Replace with your email password
+		String to = "stakeholder@example.com"; // Replace with recipient email
+
+		Properties properties = new Properties();
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.host", host);
+		properties.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(properties, new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(from, password);
+			}
+		});
+
+		try {
+			// Create the email message
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+			message.setSubject("Test Automation Report");
+			message.setText("Please find the attached test automation report.");
+
+			// Attach the report
+			MimeBodyPart messageBodyPart = new MimeBodyPart();
+			Multipart multipart = new MimeMultipart();
+			messageBodyPart.attachFile(reportFile);
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+
+			// Send the email
+			Transport.send(message);
+			System.out.println("Email sent successfully with the report.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Failed to send email with the report.");
+		}
+	}
 	public void onTestStart(ITestResult result) {
 		//extentReports.createTest(result.getTestClass().getName()+ "-->"+result.getMethod().getMethodName());
 	}

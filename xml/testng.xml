@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="Utilities.ExtentReports"/>
+    </listeners>
+    <test verbose="2" preserve-order="true"
+          name="/Users/fatma/Library/CloudStorage/OneDrive-NATIONALTRUST(2)/BookHolidayWebsite/HolidayWebsiteIDA">
+        <classes>
+            <class name="TestCases.PageOneTestCases">
+                <methods>
+                    <include name="verifyUserDetailsIsCompleted"/>
+                    <include name="verifyUserNameIsAlphaOnly"/>
+                    <include name="verifyErrorMessages"/>
+                    <include name="verifyLoginWithDataProvider"/>
+                    <include name="testWithJsonData"/>
+                    <include name="testWithCsvData"/>
+                </methods>
+            </class>
+            <!--<class name="TestCases.PageTwoTestCases">
+                <methods>
+                    <include name="setFirstPageAndMoveToNextPage"/>
+                    <include name="setHolidaySectionAndMoveToThirdPage"/>
+                    <include name="setHolidaySectionAndMoveToFirstPage"/>
+                </methods>
+            </class>-->
+        </classes>
+    </test>
+</suite>
