@@ -71,6 +71,12 @@
         </dependency>
         <!--accessibility - https://mvnrepository.com/artifact/com.deque.html.axe-core/selenium -->
         <dependency>
+            <groupId>com.deque</groupId>
+            <artifactId>axe-selenium</artifactId>
+            <version>3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.deque.html.axe-core</groupId>
             <artifactId>selenium</artifactId>
             <version>4.7.0</version>

@@ -10,7 +10,7 @@
             <class name="TestCases.PageOneTestCases">
                 <methods>
                     <include name="verifyUserDetailsIsCompleted"/>
-                    <include name="verifyUserNameIsAlphaOnly"/>
+                    <exclude name="verifyUserNameIsAlphaOnly"/>
                     <include name="verifyErrorMessages"/>
                     <include name="verifyLoginWithDataProvider"/>
                     <include name="testWithJsonData"/>

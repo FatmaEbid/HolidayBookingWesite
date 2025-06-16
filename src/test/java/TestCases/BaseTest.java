@@ -1,6 +1,8 @@
 package TestCases;
 
 import Pages.PageOne;
+import com.deque.html.axecore.results.Results;
+import com.deque.html.axecore.selenium.AxeBuilder;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -49,6 +51,8 @@ public class BaseTest {
 				System.out.println("This test cases test on: " + browser);}
 			default -> System.out.println("Invalid browser");
 		}
+		Results axeResults = new Results();
+		//AxeBuilder axeBuilder = new AxeBuilder();
 		driver.get(properties.getProperty("baseURL"));
 		pageOne = new PageOne(driver);
 	}
