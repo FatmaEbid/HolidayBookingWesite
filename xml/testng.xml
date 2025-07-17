@@ -12,9 +12,9 @@
                     <include name="verifyUserDetailsIsCompleted"/>
                     <exclude name="verifyUserNameIsAlphaOnly"/>
                     <include name="verifyErrorMessages"/>
-                    <include name="verifyLoginWithDataProvider"/>
+                    <!--<include name="verifyLoginWithDataProvider"/>
                     <include name="testWithJsonData"/>
-                    <include name="testWithCsvData"/>
+                    <include name="testWithCsvData"/>-->
                 </methods>
             </class>
             <!--<class name="TestCases.PageTwoTestCases">

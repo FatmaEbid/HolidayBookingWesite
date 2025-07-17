@@ -13,7 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ScreenShot {
-	WebDriver driver;
+	 WebDriver driver;
+
 	public static void takeScreenShot(WebDriver driver,  String screenshotname) throws Exception{
 		String dateName = new SimpleDateFormat("yyyyMMddhhmm").format(new Date());
 		//WebElement element =driver.findElement(ele);
@@ -32,5 +33,24 @@ public class ScreenShot {
 
 		ImageIO.write(screenshot.getImage(), "PNG", new File(filePath + screenshotName + dateName + ".png"));
 	}
+	public static String takeScreenShotReport(WebDriver driver,  String screenshotname) throws Exception{
+		String dateName = new SimpleDateFormat("yyyyMMddhhmm").format(new Date());
+		//WebElement element =driver.findElement(ele);
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		String filePath = System.getProperty("user.dir") + "/Screenshots/";
+		File destFile = new File(filePath+screenshotname+dateName+".png");
+		FileUtils.copyFile(scrFile, destFile);
+		return destFile.getAbsolutePath();//This allows the calling code to know exactly where the screenshot was saved on disk.
+	}
+
+	/*public static String takeScreenShotReportBase64(WebDriver driver) {
+		try {
+			TakesScreenshot ts = (TakesScreenshot) driver;
+			return ts.getScreenshotAs(OutputType.BASE64);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	} */
 
 }
