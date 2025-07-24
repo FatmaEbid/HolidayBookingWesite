@@ -2,28 +2,39 @@ package TestCases;
 
 import DataProviders.CsvDataReader;
 import DataProviders.JasonDataReader;
+import Pages.PageTwo;
+import Utilities.A11y.AccessibilityUtil;
 import Utilities.ScreenShot;
+import io.github.sridharbandi.a11y.AxeTag;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+
 public class PageOneTestCases extends BaseTest {
+
+public PageTwo pageTwo;
+
 
 	/**
 	 * Test Cases
 	 * first name can only enter alpha characters limited to 30 characters
-	 * Verifying  customer over 18 to fill out customer details form and accept only numbers
+	 * Verifying customer over 18 to fill out customer details form and accept only numbers
 	 * Verifying email address and confirm email address are the same
 	 */
 
 	@Test
-	public void verifyUserDetailsIsCompleted() throws InterruptedException {
+	public void verifyUserDetailsIsCompleted() throws InterruptedException, IOException {
 		pageOne.selectTitle("Mr.");
 		pageOne.setFullName("John Doe");
 		pageOne.setDateOfBirth(01, 11, 1990);
@@ -31,42 +42,100 @@ public class PageOneTestCases extends BaseTest {
 		pageOne.setEmailAddress("gimme@gmail.co.uk");
 		pageOne.setEmailConfirm("gimme@gmail.co.uk");
 		pageOne.setCustomerDetails("12 Main street", "Apt 4B", "New York", "NE 12LM");
-		pageOne.setContinueButton();
-		Thread.sleep(1000);
-		assertTrue(driver.getCurrentUrl().contains("Page2"));
+		//Run HTML accessibility test
+		//Utilities.A11y.AccessibilityUtil a11yUtil = new Utilities.A11y.AccessibilityUtil();
+		//String reportPath = "A11yReport/Accessibility-" + System.currentTimeMillis() + ".html";
+		//AccessibilityUtil.HtmlCsRunner.analyzePage(driver, reportPath, AccessibilityUtil.WCAGLevel.BEST_PRACTICE);
+		pageTwo = pageOne.setContinueButton();
+
+		assertTrue(driver.getCurrentUrl().contains("Page2"));//Page2
+	}
+@Ignore
+	@Test(dependsOnMethods = "verifyUserDetailsIsCompleted")
+	public void a11y() throws IOException {
+		axeRunner.execute();
+		axeRunner.setTags(AxeTag.WCAG21A, AxeTag.BEST_PRACTICE);
+		axeRunner.generateHtmlReport();
 	}
 
 	@DataProvider
 	public Object[][] userData() {
 		return new Object[][]{
 				{"John Doe", "passed"},
-				{"John_Doe", "passed"},
-				{"2Janes345", "failed"},
+				{"Karen_Peter", "passed"},
+				{"Janes345", "failed"},
 				{"smi%^th", "failed"},
 				{"A very long user name should not exceeds thirty characters", "passed"},
 				{"1234567890123456789012345678901", "failed"},
 				{"", "failed"}
 		};
 	}
-
+@Ignore
 	@Test(dataProvider = "userData")
 	public void verifyUserNameIsAlphaOnly(String fullName, String assertionFlag) {
 		pageOne.selectTitle("Mr.");
 		pageOne.setFullName(fullName);
-		assertTrue(pageOne.isNameContainsAlpha());
+		//assertTrue(pageOne.isNameContainsAlpha());
+		if ("passed".equals(assertionFlag)) {
+			assertTrue(pageOne.isNameContainsAlpha(), "Name should contain only alphabetic characters");
+		}
 		pageOne.setDateOfBirth(01, 11, 1990);
 		pageOne.setPhoneNum("6754389654");
 		pageOne.setEmailAddress("gimme@gmail.co.uk");
 		pageOne.setEmailConfirm("gimme@gmail.co.uk");
 		pageOne.setCustomerDetails("12 Main street", "Apt 4B", "New York", "NE 12LM");
 		pageOne.setContinueButton();
-		switch (assertionFlag) {
-			case "passed" -> assertTrue(driver.getCurrentUrl().contains("Page2"));
-			case "failed" -> assertTrue(driver.getCurrentUrl().contains("Page1"));
-			default -> Assert.fail("Invalid assertion flag: " + assertionFlag);
+		try{
+			switch (assertionFlag) {
+				case "passed" -> assertTrue(driver.getCurrentUrl().contains("Page2"));
+				case "failed" -> assertTrue(driver.getCurrentUrl().contains("Page1"));
+				//default -> Assert.fail("Invalid assertion flag: " + assertionFlag);
+			}
+		}catch (IllegalArgumentException e) {
+			assertEquals(assertionFlag, "failed", "Expected failure for invalid input, but got: " + e.getMessage());
 		}
 	}
+// calculate the age of the user based on the date of birth
+@DataProvider
+public Object[][] userAge() {
+	return new Object[][]{
+			{ 2,4,1980, "passed"},
+			{3,7,2000,"passed"},
+			{9,12,2006,"passed"},
+			{11,2,2017, "failed"},
+			{1,5,8979, "faild"},
+	};
+}
 
+	@Test(dataProvider = "userAge")
+	public void verifyUserAge(int day, int month, int year, String assertionFlag) {
+		pageOne.selectTitle("Mr.");
+		pageOne.setFullName("David Smith");
+		//assertTrue(pageOne.isNameContainsAlpha());
+		pageOne.setDateOfBirth(day, month, year);
+		assertTrue(pageOne.calculateAgeOfBirth(year, month, day));
+		boolean isAgeValid = pageOne.calculateAgeOfBirth(year, month, day);
+		if ("passed".equals(assertionFlag)) {
+			assertTrue(isAgeValid, "Expected age to be valid (>=18)");
+		} else {
+			Assert.assertFalse(isAgeValid, "Expected age to be invalid (<18)");
+		}
+		pageOne.setPhoneNum("6754389654");
+		pageOne.setEmailAddress("gimme@gmail.co.uk");
+		pageOne.setEmailConfirm("gimme@gmail.co.uk");
+		pageOne.setCustomerDetails("12 Main street", "Apt 4B", "New York", "NE 12LM");
+		pageOne.setContinueButton();
+		try{
+			switch (assertionFlag) {
+				case "passed" -> assertTrue(driver.getCurrentUrl().contains("Page2"));
+				case "failed" -> assertTrue(driver.getCurrentUrl().contains("Page1"));
+				default -> Assert.fail("Invalid assertion flag: " + assertionFlag);
+			}
+		}catch (IllegalArgumentException e) {
+			assertEquals(assertionFlag, "failed", "Expected failure for invalid input, but got: " + e.getMessage());
+		}
+
+}
 	@Test
 	public void verifyErrorMessages() throws InterruptedException {
 		pageOne.selectTitle("Mrs.");

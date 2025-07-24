@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 public class PageOne {
@@ -54,6 +56,9 @@ public boolean isErrorMessageDisplayed() {
 			}System.out.println("Error message: " + errorMessage.getText());
 		}return true;
 }
+
+
+
 	public void selectTitle(String title) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(titleField));
 		driver.findElement(titleField).click();
@@ -65,18 +70,42 @@ public boolean isErrorMessageDisplayed() {
 		driver.findElement(enterFullName).sendKeys(fullName);
 	}
 	public boolean isNameContainsAlpha() {
-		String name= driver.findElement(enterFullName).getAttribute("value");
-		if(name != null && name.matches("^[a-zA-Z\\s-]+$")){ // Allow alphabetic characters, spaces, and hyphens
+		String name = driver.findElement(enterFullName).getAttribute("value");
+		//return name != null && name.matches("^[a-zA-Z\\s_]+$");
+		if (name != null && name.matches("^[a-zA-Z\\s-_]+$")) { // Allow alphabetic characters, spaces, and hyphens
 			return true;
-		}else {
+		} else {
 			throw new IllegalArgumentException("Input must contain only alphabetic characters" + name);
 		}
+
 	}
 	public void setDateOfBirth(int day, int month, int year) {
 		driver.findElement(enterDay).sendKeys(String.valueOf(day));
 		driver.findElement(enterMonth).sendKeys(String.valueOf(month));
 		driver.findElement(enterYear).sendKeys(String.valueOf(year));
 	}
+	/**
+	 * Calculates the age based on the provided date of birth.
+	 * @param day The day of birth.
+	 * @param month The month of birth.
+	 * @param year The year of birth.
+	 * @return The age in years.
+	 * @throws IllegalArgumentException if the age is less than 18 or greater than 100.
+	 */
+	public boolean calculateAgeOfBirth(int day, int month, int year){
+		LocalDate currentDate = LocalDate.now();
+		LocalDate birthDate = LocalDate.of(day, month, year); //  date of birth
+		int age = Period.between( birthDate, currentDate).getYears();
+		if (age < 18) {
+			System.out.println("Age is less than 18: " + age);
+			return false;
+		} else {
+			System.out.println("Age is: " + age);
+		}
+		return true;
+	}
+
+
 	public void setPhoneNum(String phoneNum) {
 		driver.findElement(phoneField).sendKeys(phoneNum);
 	}
@@ -110,7 +139,8 @@ public boolean isErrorMessageDisplayed() {
 		driver.findElement(postCodeFeild).sendKeys(postCode);
 	}
 	public PageTwo setContinueButton() {
-		actions.scrollToElement(driver.findElement(continueButton));
+		//actions.scrollToElement(driver.findElement(continueButton));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(continueButton));
 		driver.findElement(continueButton).click();
 		return new PageTwo(driver);
 	}

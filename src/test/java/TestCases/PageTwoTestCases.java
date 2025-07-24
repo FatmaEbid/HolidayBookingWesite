@@ -8,7 +8,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class PageTwoTestCases extends BaseTest{
-	PageTwo pageTwo;
+	public PageTwo pageTwo;
 	PageThree pageThree;
 	@Test
 	public void setFirstPageAndMoveToNextPage(){
@@ -27,7 +27,7 @@ public class PageTwoTestCases extends BaseTest{
 
 	@Test(dependsOnMethods = "setFirstPageAndMoveToNextPage")
 	public void setHolidaySectionAndMoveToThirdPage(){
-		pageTwo.selectHolidayDestinationCity(PageTwo.destinationCity.BERLIN);
+		pageTwo.selectHolidayDestinationCityByEnum(PageTwo.destinationCity.BERLIN);
 		pageTwo.selectStartDate("22/11/2023");
 		pageTwo.selectNumberOfDays("6");
 		pageTwo.selectInsurance(2, "no");
@@ -35,13 +35,24 @@ public class PageTwoTestCases extends BaseTest{
 		assertEquals(pageThree.getPageThreeHeader(), "Pay for your holiday (page3 of 4)");
 	}
 	@Test(dependsOnMethods = "setFirstPageAndMoveToNextPage" )
-	public void setHolidaySectionAndMoveToFirstPage(){
-		pageTwo.selectHolidayDestinationCity(PageTwo.destinationCity.LUTON);
+	public void setHolidaySectionAndMoveToFirstPageByEnum(){
+		pageTwo.selectHolidayDestinationCityByEnum(PageTwo.destinationCity.LUTON);
 		pageTwo.selectStartDate("11/01/2025");
 		pageTwo.selectNumberOfDays("5");
 		pageTwo.selectInsurance(1, "yes");
 		pageOne = pageTwo.clickPreviousButton();
 		assertEquals(pageOne.getPageOneHeader(), "Book a Holiday(Page1 of 4)");
-
 	}
+/*	@Test(dependsOnMethods = "setFirstPageAndMoveToNextPage" )
+	public void setHolidaySectionBySelect(){
+		pageTwo.selectHolidayDestBySelect();
+		pageTwo.selectHolidayDestinationCityByEnum(PageTwo.destinationCity.BERLIN);
+		pageTwo.selectStartDate("11/01/2025");
+		pageTwo.selectNumberOfDays("5");
+		pageTwo.selectInsurance(1, "yes");
+		pageThree = pageTwo.clickContinueButton();
+		assertEquals(pageOne.getPageOneHeader(), "Book a Holiday(Page1 of 4)");
+	}*/
+
+
 }
